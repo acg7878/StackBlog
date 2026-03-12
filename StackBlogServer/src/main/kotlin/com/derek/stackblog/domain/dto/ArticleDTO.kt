@@ -109,6 +109,7 @@ data class ArticleDetailResponseDTO(
 data class ArticleQueryDTO(
     val title: String? = null,
     val typeId: Long? = null,
+    val tagId: Long? = null,
     val userId: Long? = null,
     val status: Int? = null,
     val recommended: Boolean? = null,

@@ -68,6 +68,7 @@ class ArticleController(
     fun getArticles(
         @RequestParam(required = false) title: String?,
         @RequestParam(required = false) typeId: Long?,
+        @RequestParam(required = false) tagId: Long?,
         @RequestParam(required = false) userId: Long?,
         @RequestParam(required = false) status: Int?,
         @RequestParam(required = false) recommended: Boolean?,
@@ -80,6 +81,7 @@ class ArticleController(
         val query = ArticleQueryDTO(
             title = title,
             typeId = typeId,
+            tagId = tagId,
             userId = userId,
             status = status,
             recommended = recommended,

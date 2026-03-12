@@ -34,6 +34,21 @@ class CommentController(
     }
     
     /**
+     * 获取所有评论列表（管理后台）
+     */
+    @GetMapping
+    fun getComments(
+        @RequestParam(required = false) status: String?,
+        @RequestParam(required = false) articleId: Long?,
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "20") size: Int
+    ): ResponseDTO<Page<CommentResponseDTO>> {
+        val pageable = PageRequest.of(page, size)
+        val comments = commentService.getComments(status, articleId, pageable)
+        return ResponseDTO.success(comments)
+    }
+    
+    /**
      * 获取文章的评论列表
      */
     @GetMapping("/article/{articleId}")
