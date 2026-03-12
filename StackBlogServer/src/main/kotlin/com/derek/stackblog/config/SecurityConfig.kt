@@ -48,6 +48,7 @@ class SecurityConfig(
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http
+            .cors { }  // 启用CORS支持
             .csrf { it.disable() }
             .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
             .authorizeHttpRequests { authorize ->
@@ -56,6 +57,8 @@ class SecurityConfig(
                     .requestMatchers("/api/auth/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/articles/**").permitAll()
                     .requestMatchers(HttpMethod.GET, "/api/comments/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/types/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/api/tags/**").permitAll()
                     // 需要认证的接口
                     .requestMatchers(HttpMethod.POST, "/api/articles/**").authenticated()
                     .requestMatchers(HttpMethod.PUT, "/api/articles/**").authenticated()
