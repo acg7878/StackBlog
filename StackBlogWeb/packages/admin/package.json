@@ -1,0 +1,39 @@
+{
+  "name": "@stackblog/admin",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3001",
+    "build": "run-p type-check \"build-only {@}\" --",
+    "preview": "vite preview",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --build"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.1",
+    "@stackblog/shared": "workspace:*",
+    "@vueuse/core": "^12.8.0",
+    "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
+    "echarts": "^5.5.1",
+    "element-plus": "^2.9.2",
+    "md-editor-v3": "^6.4.0",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.29",
+    "vue-echarts": "^7.0.3",
+    "vue-router": "^5.0.3"
+  },
+  "devDependencies": {
+    "@tsconfig/node24": "^24.0.4",
+    "@types/node": "^24.11.0",
+    "@vitejs/plugin-vue": "^6.0.4",
+    "@vue/tsconfig": "^0.8.1",
+    "sass": "^1.87.0",
+    "typescript": "~5.9.3",
+    "unplugin-auto-import": "^0.18.6",
+    "unplugin-vue-components": "^0.27.5",
+    "vite": "beta",
+    "vue-tsc": "^3.2.5"
+  }
+}
