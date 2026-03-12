@@ -25,10 +25,13 @@ class JwtAuthenticationFilter(
     ) {
         try {
             val jwt = getJwtFromRequest(request)
+            logger.debug("请求路径: ${request.requestURI}, Authorization: ${request.getHeader("Authorization")?.substring(0, 20)}")
             
             if (jwt != null && jwtTokenProvider.validateToken(jwt)) {
                 val userId = jwtTokenProvider.getUserIdFromToken(jwt)
                 val userDetails = customUserDetailsService.loadUserById(userId)
+                
+                logger.debug("JWT验证成功, userId: $userId, username: ${userDetails.username}")
                 
                 val authentication = UsernamePasswordAuthenticationToken(
                     userDetails, null, userDetails.authorities
@@ -39,6 +42,8 @@ class JwtAuthenticationFilter(
                 
                 // 将userId添加到request属性中，方便Controller使用
                 request.setAttribute("userId", userId)
+            } else {
+                logger.debug("JWT为空或验证失败")
             }
         } catch (ex: Exception) {
             logger.error("无法设置用户认证", ex)
