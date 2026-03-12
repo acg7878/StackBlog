@@ -3,6 +3,7 @@ package com.derek.stackblog.service
 import com.derek.stackblog.domain.dto.*
 import com.derek.stackblog.domain.entity.Article
 import com.derek.stackblog.domain.entity.ArticleContent
+import com.derek.stackblog.domain.entity.Tag
 import com.derek.stackblog.repository.*
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageRequest
@@ -163,6 +164,11 @@ class ArticleService(
             
             query.typeId?.let {
                 predicates.add(cb.equal(root.get<Long>("typeId"), it))
+            }
+            
+            query.tagId?.let { tagId ->
+                val tagsJoin = root.join<Article, Tag>("tags")
+                predicates.add(cb.equal(tagsJoin.get<Long>("id"), tagId))
             }
             
             query.userId?.let {

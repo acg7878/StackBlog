@@ -7,8 +7,10 @@ import com.derek.stackblog.repository.CommentRepository
 import com.derek.stackblog.repository.UserRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import jakarta.persistence.criteria.Predicate
 
 /**
  * 评论服务
@@ -39,6 +41,27 @@ class CommentService(
         
         val savedComment = commentRepository.save(comment)
         return toResponseDTO(savedComment)
+    }
+    
+    /**
+     * 获取所有评论列表（管理后台）
+     */
+    fun getComments(status: String?, articleId: Long?, pageable: Pageable): Page<CommentResponseDTO> {
+        val spec = Specification<Comment> { root, _, cb ->
+            val predicates = mutableListOf<Predicate>()
+            
+            status?.let {
+                predicates.add(cb.equal(root.get<String>("status"), it))
+            }
+            
+            articleId?.let {
+                predicates.add(cb.equal(root.get<Long>("articleId"), it))
+            }
+            
+            cb.and(*predicates.toTypedArray())
+        }
+        
+        return commentRepository.findAll(spec, pageable).map { toResponseDTO(it) }
     }
     
     /**
